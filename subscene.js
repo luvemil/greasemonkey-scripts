@@ -11,12 +11,13 @@
 // ==/UserScript==
 $("#flagWrapper").after('<div><input type="text"><button id="mytoggle" type="button">Toggle</button></div>');
 $("#mytoggle").click(function() {
-  $("tr").click();
-});
-
-$("tr").click(function() {
-  var Lang = $(this).find(".a1").find("span.positive-icon").text()[0];
-  if(Lang != "English") {
-    $(this).toggle();
-  }
+  $("tr").each(function() {
+    var lang_node = $(this).find("span.l")[0];
+    if(lang_node) {
+      var Lang = lang_node.innerText;
+      if(Lang != "English") {
+        $(this).toggle();
+      }
+    }
+  });
 });
