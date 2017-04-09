@@ -9,4 +9,14 @@
 // @version     1
 // @grant       none
 // ==/UserScript==
-$("#flagWrapper").after('<div><input type="text"></div>');
+$("#flagWrapper").after('<div><input type="text"><button id="mytoggle" type="button">Toggle</button></div>');
+$("#mytoggle").click(function() {
+  $("tr").click();
+});
+
+$("tr").click(function() {
+  var Lang = $(this).find(".a1").find("span.positive-icon").text()[0];
+  if(Lang != "English") {
+    $(this).toggle();
+  }
+});
