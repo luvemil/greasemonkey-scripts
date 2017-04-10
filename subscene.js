@@ -14,7 +14,6 @@ $("#flagWrapper").after(
   '<div>\
     <select id="langChoice">\
       <option id="langDefault" value="">All</option>\
-      <option value="English">English</option>\
     </select>\
     <input id="myFilterQuery" type="text">\
     <label>\
@@ -34,6 +33,11 @@ $("tr td.a1 span.l").each(function() {
   if( langs.indexOf(lang) == -1 ) {
     langs.push(lang);
   }
+});
+var el = $("#langChoice");
+$.each(langs, function(key,value) {
+  el.append($("<option></option>")
+      .attr("value",value).text(value));
 });
 
 $("#filterButton").click(function() {
