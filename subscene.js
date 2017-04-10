@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name        SubScene
+// @name        SubScene Filter
 // @namespace   www.subscene.com
 // @description Add filter to subscene searches
 // @include     https://*subscene.com/subtitles/*
