@@ -12,10 +12,10 @@
 
 $("#flagWrapper").after(
   '<div>\
-    <label>\
-      <input type="checkbox" id="langCheckBox">\
-      English Only\
-    </label>\
+    <select id="langChoice">\
+      <option id="langDefault" value="">All</option>\
+      <option value="English">English</option>\
+    </select>\
     <input id="myFilterQuery" type="text">\
     <label>\
       <input type="checkbox" id="caseInsensitiveBox">\
@@ -50,14 +50,15 @@ $("#filterButton").click(function() {
   }
 
   // Get the status of the checkbox
-  filter_lang = $("#langCheckBox").prop('checked');
+  do_filter = $("#langChoice").val() != "";
+  var filter_lang = $("#langChoice").val();
 
   rows.hide()
     .filter(function(ix,el) {
-      if(!filter_lang) {
+      if(!do_filter) {
         return true;
       }
-      return $(this).find("span.l").text().trim() == "English";
+      return $(this).find("span.l").text().trim() == filter_lang;
     })
     .filter(function(ix,el) {
       if(!isValid) {
@@ -70,7 +71,7 @@ $("#filterButton").click(function() {
 $("#clearButton").click(function() {
   rows.show();
   // restore the filters to the empy state
-  $("#langCheckBox").prop('checked',false);
+  $("#langChoice").val($("#langDefault").val());
   $("#caseInsensitiveBox").prop('checked',false);
   $("#myFilterQuery").val("");
 });
