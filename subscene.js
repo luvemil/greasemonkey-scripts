@@ -28,6 +28,14 @@ $("#flagWrapper").after(
 var rows = $("tr").filter(function(ix,el) {
   return $(this).find("span.l").text();
 });
+var langs = [];
+$("tr td.a1 span.l").each(function() {
+  lang = $(this).text().trim();
+  if( langs.indexOf(lang) == -1 ) {
+    langs.push(lang);
+  }
+});
+
 $("#filterButton").click(function() {
   // Get the regex to search for
   var isValid = true;
