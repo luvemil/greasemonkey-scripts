@@ -14,7 +14,7 @@ var rows = $("tr").filter(function(ix,el) {
   return $(this).find("span.l").text();
 });
 $("#mytoggle").click(function() {
-  var rows.filter(function(ix,el) {
+  rows.filter(function(ix,el) {
     return $(this).find("span.l").text().trim() != "English";
   })
     .hide();
