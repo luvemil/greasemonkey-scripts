@@ -17,6 +17,10 @@ $("#flagWrapper").after(
       English Only\
     </label>\
     <input id="myFilterQuery" type="text">\
+    <label>\
+      <input type="checkbox" id="caseInsensitiveBox">\
+      Case Insensitive\
+    </label>\
     <button id="filterButton" type="button">Filter</button>\
     <button id="clearButton" type="button">Clear</button>\
   </div>'
@@ -28,7 +32,11 @@ $("#filterButton").click(function() {
   // Get the regex to search for
   var isValid = true;
   try {
-    var inputRegex = new RegExp($("#myFilterQuery").val());
+    if($("#caseInsensitiveBox").prop('checked')) {
+      var inputRegex = new RegExp($("#myFilterQuery").val(),"i");
+    } else {
+      var inputRegex = new RegExp($("#myFilterQuery").val());
+    }
   } catch(e) {
     isValid = false;
   }
@@ -55,5 +63,6 @@ $("#clearButton").click(function() {
   rows.show();
   // restore the filters to the empy state
   $("#langCheckBox").prop('checked',false);
+  $("#caseInsensitiveBox").prop('checked',false);
   $("#myFilterQuery").val("");
 });
