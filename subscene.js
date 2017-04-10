@@ -9,27 +9,28 @@
 // @version     1
 // @grant       none
 // ==/UserScript==
-$("#flagWrapper").after('<div><input id="myfilterquery" type="text"><button id="mytoggle" type="button">Toggle</button></div>');
+
+$("#flagWrapper").after('<div><button id="langToggle">English</button><input id="myFilterQuery" type="text"><button id="filterButton" type="button">Filter</button></div>');
 var rows = $("tr").filter(function(ix,el) {
   return $(this).find("span.l").text();
 });
-$("#mytoggle").click(function() {
+$("#langToggle").click(function() {
   rows.filter(function(ix,el) {
     return $(this).find("span.l").text().trim() != "English";
   })
     .hide();
 });
-$("#myfilterquery").submit(function() {
+$("#filterButton").click(function() {
   var isValid = true;
   try {
-    var inputRegex = new RegExp($(this).val());
+    var inputRegex = new RegExp($("#myFilterQuery").val());
   } catch(e) {
     isValid = false;
   }
 
   if(!isValid) {
     window.console.log("Regex not valid");
-    return $(this);
+    return $("#myFilterQuery");
   }
 
   rows.filter(function(ix,el) {
