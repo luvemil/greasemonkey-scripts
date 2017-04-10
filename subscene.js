@@ -47,7 +47,7 @@ $("#filterButton").click(function() {
       if(!isValid) {
         return true;
       }
-      return $(this).children("td.a1 a span:nth-child(2)").text().trim().match(inputRegex);
+      return $(this).find("td.a1 a span:nth-child(2)").text().trim().match(inputRegex);
     })
     .show();
 });
