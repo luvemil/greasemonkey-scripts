@@ -10,17 +10,22 @@
 // @grant       none
 // ==/UserScript==
 
-$("#flagWrapper").after('<div><button id="langToggle">English</button><input id="myFilterQuery" type="text"><button id="filterButton" type="button">Filter</button></div>');
+$("#flagWrapper").after(
+  '<div>\
+    <label>\
+      <input type="checkbox" id="langCheckBox">\
+      English Only\
+    </label>\
+    <input id="myFilterQuery" type="text">\
+    <button id="filterButton" type="button">Filter</button>\
+    <button id="clearButton" type="button">Clear</button>\
+  </div>'
+);
 var rows = $("tr").filter(function(ix,el) {
   return $(this).find("span.l").text();
 });
-$("#langToggle").click(function() {
-  rows.filter(function(ix,el) {
-    return $(this).find("span.l").text().trim() != "English";
-  })
-    .hide();
-});
 $("#filterButton").click(function() {
+  // Get the regex to search for
   var isValid = true;
   try {
     var inputRegex = new RegExp($("#myFilterQuery").val());
@@ -28,13 +33,27 @@ $("#filterButton").click(function() {
     isValid = false;
   }
 
-  if(!isValid) {
-    window.console.log("Regex not valid");
-    return $("#myFilterQuery");
-  }
+  // Get the status of the checkbox
+  filter_lang = $("#langCheckBox").prop('checked');
 
-  rows.filter(function(ix,el) {
-    return ! $(this).children("td.a1 a span:nth-child(2)").text().trim().match(inputRegex);
-  })
-    .hide();
+  rows.hide()
+    .filter(function(ix,el) {
+      if(!filter_lang) {
+        return true;
+      }
+      return $(this).find("span.l").text().trim() == "English";
+    })
+    .filter(function(ix,el) {
+      if(!isValid) {
+        return true;
+      }
+      return $(this).children("td.a1 a span:nth-child(2)").text().trim().match(inputRegex);
+    })
+    .show();
+});
+$("#clearButton").click(function() {
+  rows.show();
+  // restore the filters to the empy state
+  $("#langCheckBox").prop('checked',false);
+  $("#myFilterQuery").val("");
 });
