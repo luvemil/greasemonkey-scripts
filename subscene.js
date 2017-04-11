@@ -25,6 +25,9 @@ $("#flagWrapper").after(
       <option value="hi">HI</option>\
       <option value="nohi">No HI</option>\
     </select>\
+    <select id="authorChoice">\
+      <option id="authorDefault" value="">Any</option>\
+    </select>\
     <button id="filterButton" type="button">Filter</button>\
     <button id="clearButton" type="button">Clear</button>\
   </div>'
@@ -32,6 +35,7 @@ $("#flagWrapper").after(
 var rows = $("tr").filter(function(ix,el) {
   return $(this).find("span.l").text();
 });
+var filtered = rows;
 var visibles = rows;
 
 var langs = [];
@@ -47,9 +51,11 @@ $.each(langs, function(key,value) {
       .attr("value",value).text(value));
 });
 
+var authors = [];
+
 var render = function() {
   rows.hide();
-  visibles.show();
+  filtered.show();
 };
 
 $("#filterButton").click(function() {
@@ -78,7 +84,7 @@ $("#filterButton").click(function() {
     var hi_class = "a40";
   }
 
-  visibles = rows.filter(function(ix,el) {
+  filtered = rows.filter(function(ix,el) {
       if(!do_filter) {
         return true;
       }
@@ -100,7 +106,7 @@ $("#filterButton").click(function() {
   render();
 });
 $("#clearButton").click(function() {
-  visibles = rows;
+  filtered = visibles = rows;
   render();
 
   // restore the filters to the empy state
