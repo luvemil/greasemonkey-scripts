@@ -63,6 +63,8 @@ var authorsPopulate = function() {
   });
 };
 var updateAuthorChoice = function() {
+  authorsPopulate();
+
   authorVal = $("#authorChoice").val();
   $("#authorChoice option:gt(0)").remove();
   var el = $("#authorChoice");
@@ -72,24 +74,12 @@ var updateAuthorChoice = function() {
   });
   $("#authorChoice").val(authorVal);
 };
-authorsPopulate();
+
 updateAuthorChoice();
 
 var render = function() {
   rows.hide();
-
-  author_filter = $("#authorChoice").val();
-  if(author_filter == $("#authorDefault").val()){
-    visibles = filtered;
-  } else {
-    visibles = filtered.filter(function(ix,el) {
-      return $(this).find("td.a5").text().trim() == author_filter;
-    });
-  }
   visibles.show();
-
-  authorsPopulate();
-  updateAuthorChoice();
 };
 
 $("#filterButton").click(function() {
@@ -118,6 +108,7 @@ $("#filterButton").click(function() {
     var hi_class = "a40";
   }
 
+  // First filter
   filtered = rows.filter(function(ix,el) {
       if(!do_filter) {
         return true;
@@ -137,10 +128,25 @@ $("#filterButton").click(function() {
       return $(this).find("td:nth-child(3)").attr('class') == hi_class;
     });
 
+  // Update dependencies of second filter
+  updateAuthorChoice();
+
+  // Second filter
+  author_filter = $("#authorChoice").val();
+  if(author_filter == $("#authorDefault").val()){
+    visibles = filtered;
+  } else {
+    visibles = filtered.filter(function(ix,el) {
+      return $(this).find("td.a5").text().trim() == author_filter;
+    });
+  }
+
   render();
 });
 $("#clearButton").click(function() {
   filtered = visibles = rows;
+
+  updateAuthorChoice();
 
   // restore the filters to the empy state
   $("#langChoice").val($("#langDefault").val());
