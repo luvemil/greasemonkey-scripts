@@ -51,12 +51,8 @@ $.each(langs, function(key,value) {
       .attr("value",value).text(value));
 });
 
+// Get authors list and set selection
 var authors = [];
-/* TODO:
- *  - populate authors
- *  - update author selection "#authorChoice"
- */
-
 var authorsPopulate = function() {
   authors = [];
   filtered.find("td.a5").each(function() {
@@ -66,19 +62,34 @@ var authorsPopulate = function() {
     }
   });
 };
-
 var updateAuthorChoice = function() {
+  authorVal = $("#authorChoice").val();
   $("#authorChoice option:gt(0)").remove();
   var el = $("#authorChoice");
   $.each(authors,function(key, value) {
     el.append($("<option></option>")
       .attr("value",value).text(value));
   });
-}
+  $("#authorChoice").val(authorVal);
+};
+authorsPopulate();
+updateAuthorChoice();
 
 var render = function() {
   rows.hide();
-  filtered.show();
+
+  author_filter = $("#authorChoice").val();
+  if(author_filter == $("#authorDefault").val()){
+    visibles = filtered;
+  } else {
+    visibles = filtered.filter(function(ix,el) {
+      return $(this).find("td.a5").text().trim() == author_filter;
+    });
+  }
+  visibles.show();
+
+  authorsPopulate();
+  updateAuthorChoice();
 };
 
 $("#filterButton").click(function() {
@@ -130,11 +141,13 @@ $("#filterButton").click(function() {
 });
 $("#clearButton").click(function() {
   filtered = visibles = rows;
-  render();
 
   // restore the filters to the empy state
   $("#langChoice").val($("#langDefault").val());
   $("#earChoice").val($("#earDefault").val());
+  $("#authorChoice").val($("#authorDefault").val())
   $("#caseInsensitiveBox").prop('checked',false);
   $("#myFilterQuery").val("");
+
+  render();
 });
