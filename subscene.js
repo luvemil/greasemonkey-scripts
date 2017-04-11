@@ -32,6 +32,8 @@ $("#flagWrapper").after(
 var rows = $("tr").filter(function(ix,el) {
   return $(this).find("span.l").text();
 });
+var visibles = rows;
+
 var langs = [];
 $("tr td.a1 span.l").each(function() {
   lang = $(this).text().trim();
@@ -44,6 +46,11 @@ $.each(langs, function(key,value) {
   el.append($("<option></option>")
       .attr("value",value).text(value));
 });
+
+var render = function() {
+  rows.hide();
+  visibles.show();
+};
 
 $("#filterButton").click(function() {
   // Get the regex to search for
@@ -71,8 +78,7 @@ $("#filterButton").click(function() {
     var hi_class = "a40";
   }
 
-  rows.hide()
-    .filter(function(ix,el) {
+  visibles = rows.filter(function(ix,el) {
       if(!do_filter) {
         return true;
       }
@@ -89,11 +95,14 @@ $("#filterButton").click(function() {
         return true;
       }
       return $(this).find("td:nth-child(3)").attr('class') == hi_class;
-    })
-    .show();
+    });
+
+  render();
 });
 $("#clearButton").click(function() {
-  rows.show();
+  visibles = rows;
+  render();
+
   // restore the filters to the empy state
   $("#langChoice").val($("#langDefault").val());
   $("#earChoice").val($("#earDefault").val());
