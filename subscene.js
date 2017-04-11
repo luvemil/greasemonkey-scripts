@@ -67,6 +67,15 @@ var authorsPopulate = function() {
   });
 };
 
+var updateAuthorChoice = function() {
+  $("#authorChoice option:gt(0)").remove();
+  var el = $("#authorChoice");
+  $.each(authors,function(key, value) {
+    el.append($("<option></option>")
+      .attr("value",value).text(value));
+  });
+}
+
 var render = function() {
   rows.hide();
   filtered.show();
