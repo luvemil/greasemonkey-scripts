@@ -1,5 +1,9 @@
 // ==UserScript==
 // @name        SubScene Filter
+// @author      Marco Tarantino (https://github.com/luvemil)
+// @homepageURL https://github.com/luvemil
+// @copyright   2017+, Marco Tarantino (https://github.com/luvemil)
+// @license     MIT License; https://raw.githubusercontent.com/luvemil/greasemonkey-scripts/master/LICENSE
 // @namespace   www.subscene.com
 // @description Add filter to subscene searches
 // @include     https://*subscene.com/subtitles/*
