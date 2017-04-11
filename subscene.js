@@ -52,6 +52,20 @@ $.each(langs, function(key,value) {
 });
 
 var authors = [];
+/* TODO:
+ *  - populate authors
+ *  - update author selection "#authorChoice"
+ */
+
+var authorsPopulate = function() {
+  authors = [];
+  filtered.find("td.a5").each(function() {
+    author = $(this).text().trim();
+    if( authors.indexOf(author) == -1 ) {
+      authors.push(author);
+    }
+  });
+};
 
 var render = function() {
   rows.hide();
